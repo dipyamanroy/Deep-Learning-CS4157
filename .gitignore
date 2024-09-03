@@ -1,0 +1,5 @@
+# Ignore __pycache__ folders
+**/__pycache__/
+
+# Ignore the Python virtual environment stored in the 'dl' folder
+/assignment-1/dl/
