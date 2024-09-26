@@ -1,26 +1,29 @@
 # Imports
 import random
 import numpy as np
+from activation import tanh, tanh_prime
 
 class Networks(object):
 
     def __init__(self, sizes):
         self.num_layers = len(sizes)
-
         self.sizes = sizes
-
+        
+        # Xavier initialization for weights
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
-        self.weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
+        self.weights = [np.random.randn(y, x) / np.sqrt(x) for x, y in zip(sizes[:-1], sizes[1:])]
 
     def feedforward(self, a):
         # a is the input to the network
         for b, w in zip(self.biases, self.weights):
-            a = sigmoid(np.dot(w, a) + b)
+            a = tanh(np.dot(w, a) + b)  # Changed to tanh activation function
         return a
     
     def SGD(self, training_data, epochs, mini_batch_size, eta, test_data=None):
-        if test_data: n_test = len(test_data)
         n = len(training_data)
+        
+        training_loss = []
+        testing_loss = []
         
         for j in range(epochs):
             random.shuffle(training_data)
@@ -32,11 +35,28 @@ class Networks(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             
+            # Calculate training loss (MSE)
+            train_loss = self.calculate_mse(training_data)
+            training_loss.append(train_loss)
+            
+            # Always print training loss
             if test_data:
-                print(f"Epoch {j+1}: {self.evaluate(test_data)} / {n_test}")
+                test_loss = self.calculate_mse(test_data)
+                testing_loss.append(test_loss)
+                print(f"Epoch {j+1}: Train Loss {train_loss:.4f}, Test Loss {test_loss:.4f}")
             else:
-                print(f"Epoch {j+1} complete")
+                print(f"Epoch {j+1}: Train Loss {train_loss:.4f}")
         
+        return training_loss, testing_loss
+
+
+    def calculate_mse(self, data):
+        total_loss = 0
+        for x, y in data:
+            prediction = self.feedforward(x)
+            total_loss += np.mean((prediction - y) ** 2)
+        return total_loss / len(data)
+
     def update_mini_batch(self, mini_batch, eta):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
@@ -61,19 +81,17 @@ class Networks(object):
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation) + b
             zs.append(z)
-            activation = sigmoid(z)
+            activation = tanh(z)  # Changed to tanh activation
             activations.append(activation)
         
         # Backward pass
-        delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+        delta = self.cost_derivative(activations[-1], y) * tanh_prime(zs[-1])  # Changed to tanh_prime
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 
-        # l = 1 implies the last layer of neurons, l = 2 the second-last and so on
-        # This has been done to take advantage of negative indices
         for l in range(2, self.num_layers):
             z = zs[-l]
-            sp = sigmoid_prime(z)
+            sp = tanh_prime(z)  # Changed to tanh_prime
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
             nabla_b[-l] = delta
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
@@ -86,11 +104,3 @@ class Networks(object):
     
     def cost_derivative(self, output_activations, y):
         return (output_activations - y)
-
-# Activation functions
-def sigmoid(z):
-    return 1.0 / (1.0 + np.exp(-z))
-
-# Derivative of sigmoid function
-def sigmoid_prime(z):
-    return sigmoid(z) * (1 - sigmoid(z))
