@@ -7,7 +7,6 @@ class Networks(object):
         self.num_layers = len(sizes)
         self.sizes = sizes
         
-        # Xavier initialization for weights
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x) / np.sqrt(x) for x, y in zip(sizes[:-1], sizes[1:])]
 
