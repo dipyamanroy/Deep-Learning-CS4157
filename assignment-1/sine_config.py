@@ -1,9 +1,9 @@
 # Configuration for ANN
 
 # Set hyperparameters
-mini_batch_size = 64
+mini_batch_size = 128
 learning_rate = 0.001
-num_iterations = 4000
+num_iterations = 5000
 activation = "tanh" # or 'sigmoid', 'relu', etc.
 
 # Regularization
