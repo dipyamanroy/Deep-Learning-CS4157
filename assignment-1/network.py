@@ -1,7 +1,7 @@
 # Imports
 import random
 import numpy as np
-from activation import tanh, tanh_prime
+from activations import tanh, tanh_prime
 
 class Networks(object):
 
