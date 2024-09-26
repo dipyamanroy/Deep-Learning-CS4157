@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
 from network import Networks
+from config import (mini_batch_size, learning_rate, num_iterations, 
+                    layers_dims, lambda_reg, use_adam, beta1, beta2, epsilon, 
+                    activation)
 
 # Generate training data
 def generate_sine_data(samples=1000):
@@ -10,15 +12,23 @@ def generate_sine_data(samples=1000):
     training_data = [(np.reshape(i, (1, 1)), np.reshape(j, (1, 1))) for i, j in zip(x, y)]
     return training_data
 
-# Initialize the network: 1 input neuron, 10 hidden neurons (two layers), and 1 output neuron
-net = Networks([1, 10, 10, 1])
+# Initialize the network with the specified activation function
+net = Networks(sizes=layers_dims, 
+                activation=activation,  
+                beta1=beta1, 
+                beta2=beta2, 
+                epsilon=epsilon, 
+                lambda_reg=lambda_reg)
 
 # Split the training data into training and testing sets
 training_data = generate_sine_data(samples=800)  # 800 samples for training
 testing_data = generate_sine_data(samples=200)   # 200 samples for testing
 
 # Train the network
-training_loss, testing_loss = net.SGD(training_data, epochs=1000, mini_batch_size=20, eta=0.2, test_data=testing_data)
+training_loss, testing_loss = net.SGD(training_data, epochs=num_iterations, 
+                                        mini_batch_size=mini_batch_size, 
+                                        eta=learning_rate, 
+                                        test_data=testing_data)
 
 # Testing the network on new data
 test_x = np.linspace(0, 2 * np.pi, 100)
