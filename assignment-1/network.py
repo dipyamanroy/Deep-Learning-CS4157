@@ -3,7 +3,7 @@ import numpy as np
 from activations import tanh, tanh_prime, sigmoid, sigmoid_prime, relu, relu_prime
 
 class Networks(object):
-    def __init__(self, sizes, activation='tanh', use_adam=False, beta1=0.9, beta2=0.999, epsilon=1e-8, lambda_reg=0.0):
+    def __init__(self, sizes, activation='tanh', use_adam=False, beta1=0.9, beta2=0.99, epsilon=1e-8, lambda_reg=0.0):
         self.num_layers = len(sizes)
         self.sizes = sizes
         
