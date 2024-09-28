@@ -1,26 +1,26 @@
 import numpy as np
 
 # Activation functions
-def tanh(z):
+def tanh(Z):
     """Tanh activation function"""
-    return np.tanh(z)
+    return np.tanh(Z)
 
-def tanh_prime(z):
+def tanh_prime(Z):
     """Derivative of the tanh function"""
-    return 1.0 - np.tanh(z) ** 2
+    return 1.0 - np.tanh(Z) ** 2
 
-def sigmoid(z):
+def sigmoid(Z):
     """Sigmoid activation function"""
-    return 1.0 / (1.0 + np.exp(-z))
+    return 1.0 / (1.0 + np.exp(-Z))
 
-def sigmoid_prime(z):
+def sigmoid_prime(Z):
     """Derivative of the sigmoid function"""
-    return sigmoid(z) * (1 - sigmoid(z))
+    return sigmoid(Z) * (1 - sigmoid(Z))
 
-def relu(z):
+def relu(Z):
     """ReLU (Rectified Linear Unit) activation function"""
-    return np.maximum(0, z)
+    return np.maximum(0, Z)
 
-def relu_prime(z):
+def relu_prime(Z):
     """Derivative of the ReLU function"""
-    return np.where(z > 0, 1.0, 0.0)
+    return np.where(Z > 0, 1.0, 0.0)
