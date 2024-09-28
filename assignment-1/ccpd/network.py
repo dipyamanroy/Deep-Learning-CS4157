@@ -316,17 +316,21 @@ class Network:
                     valid_error = self.predicted_error(valid_x, valid_y)
                     self.validcosts.append(valid_error)
                     if early_stopping_patience > 0:
-                        best_valid_error = float('inf')
-                        patience = 0
-                        if valid_error < best_valid_error:
+                        if i == 0:
                             best_valid_error = valid_error
                             patience = 0
+                        else:
+                            if valid_error < best_valid_error:
+                                best_valid_error = valid_error
+                                patience = 0
+                            else:
+                                patience += 1
+                        if patience >= early_stopping_patience:
+                            print("Early stopping: validation error didn't improve for {} epochs".format(early_stopping_patience))
+                            break
+                        print("Cost after epoch %i: %f, Valid err: %f" % (i, cost_avg, valid_error))
                     else:
-                        patience += 1
-                    if patience >= early_stopping_patience:
-                        print("Early stopping: validation error didn't improve for {} epochs".format(early_stopping_patience))
-                        break
-                    print("Cost after epoch %i: %f, Valid err: %f" % (i, cost_avg, valid_error))
+                        print("Cost after epoch %i: %f, Valid err: %f" % (i, cost_avg, valid_error))
                 else:
                     print("Cost after epoch %i: %f" % (i, cost_avg))
                 self.costs.append(cost_avg)
