@@ -90,7 +90,7 @@ class Network:
         assert (A.shape == (W.shape[0], A_prev.shape[1]))
         return A, cache
 
-    def L_model_forward(self, X, parameters, activation):
+    def network_forward(self, X, parameters, activation):
         caches = []
         A = X
         L = len(parameters) // 2
@@ -119,7 +119,7 @@ class Network:
             cost = mse_cost(AL, Y)
 
         if regularisation == 'L2':
-            cost += l2_regularization_cost(parameters, lambd)
+            cost += l2_regularization_cost(parameters, lambd, m)
 
         cost = np.squeeze(cost)
         assert(cost.shape == ())
@@ -160,7 +160,7 @@ class Network:
         
         return dA_prev, dW, db
 
-    def L_model_backward(self, AL, Y, caches, activation, regularisation, lambd, cost_func='log'):
+    def network_backward(self, AL, Y, caches, activation, regularisation, lambd, cost_func='log'):
         grads = {}
         L = len(caches)
         m = AL.shape[1]
@@ -297,9 +297,9 @@ class Network:
 
             for minibatch in minibatches:
                 (minibatch_X, minibatch_Y) = minibatch
-                a3, caches = self.L_model_forward(minibatch_X, self.parameters, self.activation)
+                a3, caches = self.network_forward(minibatch_X, self.parameters, self.activation)
                 cost_total += self.compute_cost(a3, minibatch_Y, self.parameters, self.lambd, self.regularisation, self.cost_func)
-                grads = self.L_model_backward(a3, minibatch_Y, caches, self.activation, self.regularisation, self.lambd, self.cost_func)
+                grads = self.network_backward(a3, minibatch_Y, caches, self.activation, self.regularisation, self.lambd, self.cost_func)
 
                 if self.optimizer == "gd" or self.optimizer == 'none':
                     self.parameters = self.update_parameters(self.parameters, grads, self.learning_rate)
@@ -359,7 +359,7 @@ class Network:
         n = len(self.parameters) // 2
         p = np.zeros((1, m))
 
-        probas, caches = self.L_model_forward(X, self.parameters, self.activation)
+        probas, caches = self.network_forward(X, self.parameters, self.activation)
 
         for i in range(0, probas.shape[1]):
             if probas[0, i] > 0.5:
@@ -371,11 +371,11 @@ class Network:
         return p
 
     def predictvals(self, x):
-        probas, caches = self.L_model_forward(x, self.parameters, self.activation)
+        probas, caches = self.network_forward(x, self.parameters, self.activation)
         return probas
 
     def predicted_error(self, x, y):
-        probas, caches = self.L_model_forward(x, self.parameters, self.activation)
+        probas, caches = self.network_forward(x, self.parameters, self.activation)
         err = self.compute_cost(probas, y, self.parameters, self.lambd, self.regularisation, self.cost_func)
         return err
 
