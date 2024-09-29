@@ -14,10 +14,10 @@ def mse_cost(AL, Y):
     cost = np.mean(np.square(AL - Y)) * 0.5
     return cost
 
-def l2_regularization_cost(parameters, lambd):
+def l2_regularization_cost(parameters, lambd, m):
     L = len(parameters) // 2
     sumw = 0
     for l in range(1, L + 1):
         sumw += np.sum(np.square(parameters['W' + str(l)]))
-    L2_regularization_cost = (1 / Y.shape[1]) * (lambd / 2) * (sumw)
+    L2_regularization_cost = (1 / m) * (lambd / 2) * (sumw)
     return L2_regularization_cost
