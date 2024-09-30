@@ -1,6 +1,8 @@
-# Assignment 1
-## Deep Learning `CS4157`
+# README
 
+### Assignment 1
+#### Deep Learning `CS4157`
+---
 Codes from the first assignment of Deep Learning `CS4157`, involving creating a neural network from scratch, to predict the Combined Cycle Power Plant Dataset's net hourly electrical energy output (EP) value.
 
 ### Table of Contents
