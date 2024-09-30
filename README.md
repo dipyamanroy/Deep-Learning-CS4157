@@ -24,7 +24,7 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
 1. Navigate to the `sine/` directory.
 2. Refer to the config file, `config.json`, and make changes as necessary.
     
-    ```json
+    ```sh
     "mini_batch_size": 64,          # Size of Minibatch
     "learning_rate": 0.01,          # Learning rate (eta)
     "num_iterations": 1000,         # Number of epochs
@@ -51,7 +51,7 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
 1. Navigate to the `ccpp/` directory.
 2. Refer to the config file, `config.json`. Only one additional change to the config file of the Sine predictor has been made, which is the addition of Dropout.
     
-    ```json
+    ```sh
     "dropout_keep_prob": 1.0,           #  Dropout keep probability (layers to keep i.e. 0.9 implies 90% of layers are preserved from one epoch to another)
     ```
 > [!WARNING]  
