@@ -381,7 +381,7 @@ class Network:
 
     def mape_cost(self, y, a):
         return mape_cost(y, a)
-        
+
     # Use LaTeX for fonts
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family'] = 'serif'

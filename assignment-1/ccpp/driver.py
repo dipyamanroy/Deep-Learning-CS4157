@@ -1,7 +1,17 @@
+import sys
+import os
+import json
+
+# Add the parent directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import pandas as pd
 import numpy as np
 from network import Network
-from ccpp_config import *
+
+# Load the configuration from the JSON file
+with open('config.json') as f:
+    config = json.load(f)
 
 # Read dataset
 df = pd.read_csv("ccpp.csv")
@@ -49,20 +59,20 @@ print("No. of samples in validation set: ", x_val.shape[1])
 
 # Create the network instance
 network = Network(
-    layers_dims=layers_dims,
-    optimizer=optimizer,
-    learning_rate=learning_rate,
+    layers_dims=config['layers_dims'],
+    optimizer=config['optimizer'],
+    learning_rate=config['learning_rate'],
     he_init=True,
-    mini_batch_size=mini_batch_size,
-    beta=beta,
-    beta1=beta1,
-    beta2=beta2,
-    epsilon=epsilon,
-    activation=activation,
-    regularisation=regularisation,
-    lambd=lambd,
-    cost_func=cost_func,
-    dropout_keep_prob=dropout_keep_prob
+    mini_batch_size=config['mini_batch_size'],
+    beta=config['beta'],
+    beta1=config['beta1'],
+    beta2=config['beta2'],
+    epsilon=config['epsilon'],
+    activation=config['activation'],
+    regularisation=config['regularisation'],
+    lambd=config['lambd'],
+    cost_func=config['cost_func'],
+    dropout_keep_prob=config['dropout_keep_prob']
 )
 
 # Train the model
@@ -72,9 +82,9 @@ network.train(
     valid=True,
     valid_x=x_val,
     valid_y=y_val,
-    num_iterations=num_iterations,
+    num_iterations=config['num_iterations'],
     print_cost=True,
-    early_stopping_patience=early_stopping_patience
+    early_stopping_patience=config['early_stopping_patience']
 )
 
 # MAPE

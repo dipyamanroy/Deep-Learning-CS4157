@@ -1,0 +1,17 @@
+{
+    "mini_batch_size": 64,
+    "learning_rate": 0.001,
+    "num_iterations": 500,
+    "activation": "tanh",
+    "cost_func": "mse",
+    "regularisation": "L2",
+    "lambd": 0.1,
+    "optimizer": "adam", 
+    "beta": 0.9,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-8,
+    "layers_dims": [4, 10, 10, 10, 1],
+    "dropout_keep_prob": 1.0,
+    "early_stopping_patience": 0
+}

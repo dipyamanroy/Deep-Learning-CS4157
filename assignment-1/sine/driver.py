@@ -1,7 +1,17 @@
+import sys
+import os
+import json
+
+# Add the parent directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import numpy as np
 import matplotlib.pyplot as plt
 from network import Network
-from sine_config import *
+
+# Load the configuration from the JSON file
+with open('config.json') as f:
+    config = json.load(f)
 
 # Function to calculate R² score
 def calculate_r2(y_true, y_pred):
@@ -18,16 +28,16 @@ def generate_sine_data(samples=1000):
     return training_data
 
 # Initialize the network with the specified activation function
-net = Network(layers_dims=layers_dims, 
-                activation=activation,  
-                beta1=beta1, 
-                beta2=beta2, 
-                epsilon=epsilon, 
-                lambd=lambda_reg,
-                cost_func=cost_func,
-                optimizer=optimizer,
-                learning_rate=learning_rate,
-                mini_batch_size=mini_batch_size)
+net = Network(layers_dims=config['layers_dims'], 
+                activation=config['activation'],  
+                beta1=config['beta1'], 
+                beta2=config['beta2'], 
+                epsilon=config['epsilon'], 
+                lambd=config['lambda_reg'],
+                cost_func=config['cost_func'],
+                optimizer=config['optimizer'],
+                learning_rate=config['learning_rate'],
+                mini_batch_size=config['mini_batch_size'])
 
 # Split the training data into training and testing sets
 training_data = generate_sine_data(samples=800)  # 800 samples for training
@@ -40,7 +50,7 @@ X_test = np.array([x[0] for x in testing_data]).reshape(1, 200)
 Y_test = np.array([x[1] for x in testing_data]).reshape(1, 200)
 
 # Train the network
-net.train(X_train, Y_train, valid=True, valid_x=X_test, valid_y=Y_test, num_iterations=num_iterations, early_stopping_patience=early_stopping_patience)
+net.train(X_train, Y_train, valid=True, valid_x=X_test, valid_y=Y_test, num_iterations=config['num_iterations'], early_stopping_patience=config['early_stopping_patience'])
 
 # Testing the network on new data
 test_x = np.linspace(-2 * np.pi, 2 * np.pi, 100)
@@ -49,10 +59,6 @@ predicted_y = net.predictvals(test_x).flatten()
 
 # Ensure predictions are numeric
 predicted_y = np.clip(predicted_y, -10, 10)  # Clip large values
-
-# Calculate R² for the testing set
-r2 = calculate_r2(np.sin(test_x.flatten()), predicted_y)
-print(f"Test R²: {r2:.4f}")
 
 # Use LaTeX for fonts
 plt.rcParams['text.usetex'] = True
@@ -72,30 +78,5 @@ plt.grid(True, linestyle='--', alpha=0.2)
 plt.legend(loc='best', fontsize=12)
 plt.savefig("sine_prediction.png", dpi=300, bbox_inches='tight')
 
-# Convergence plot for training and validation costs
-plt.figure(figsize=(10, 6))
-plt.plot(net.costs, label=r'\textbf{Training Cost}', color='darkorange', linewidth=2)
-plt.plot(net.validcosts, label=r'\textbf{Validation Cost}', color='dodgerblue', linewidth=1)
-
-plt.title(r'$\textbf{Convergence History}$', fontsize=14)
-plt.xlabel(r'$\textbf{Epochs}$', fontsize=12)
-plt.ylabel(r'$\textbf{Cost}$', fontsize=12)
-
-plt.grid(True, linestyle='--', alpha=0.2)
-plt.legend(loc='best', fontsize=12)
-plt.savefig("cost_convergence_sine.png", dpi=300, bbox_inches='tight')
-
-# Scatter plot for R²
-plt.figure(figsize=(10, 6))
-plt.scatter(np.sin(test_x.flatten ()), predicted_y, color='dodgerblue', alpha=0.7)
-plt.plot([-1, 1], [-1, 1], color='darkorange', linestyle='dashed', linewidth=1)  # Line for perfect predictions
-
-plt.title(r'\textbf{R²: Predicted vs True Values}', fontsize=14)
-plt.xlabel(r'$\textbf{True Values}$', fontsize=12)
-plt.ylabel(r'$\textbf{Predicted Values}$', fontsize=12)
-
-
-# Display R² score on the plot
-plt.annotate(f'R²: {r2:.4f}', xy=(0.5, 0.1), xycoords='axes fraction', fontsize=12, ha='center', color='black', bbox=dict(boxstyle="round,pad=0.3", edgecolor='none', facecolor='lightgray'))
-plt.grid(True, linestyle='--', alpha=0.2)
-plt.savefig("r2_scatter_plot_sine.png", dpi=300, bbox_inches='tight')
+# Now generate the R² scatter plot
+net.plot_r2_scatter(test_x, np.sin(test_x.flatten()))
