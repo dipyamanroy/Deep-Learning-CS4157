@@ -70,7 +70,7 @@ network = Network(
     epsilon=config['epsilon'],
     activation=config['activation'],
     regularisation=config['regularisation'],
-    lambd=config['lambd'],
+    lambd=config['lambda_reg'],
     cost_func=config['cost_func'],
     dropout_keep_prob=config['dropout_keep_prob']
 )

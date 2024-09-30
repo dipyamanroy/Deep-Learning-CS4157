@@ -36,19 +36,3 @@ def tanh_backward(dA,cache):
     dZ=dA*(1-s*s)
     assert (dZ.shape == Z.shape)
     return dZ
-
-def leaky_relu(Z):
-    return np.maximum(0.01 * Z, Z)
-
-def leaky_relu_backward(dA, Z):
-    dZ = np.array(dA, copy=True)
-    dZ[Z <= 0] = 0.01
-    return dZ
-
-def elu(Z, alpha=1.0):
-    return np.where(Z > 0, Z, alpha * (np.exp(Z) - 1))
-
-def elu_backward(dA, Z, alpha=1.0):
-    dZ = np.array(dA, copy=True)
-    dZ[Z <= 0] = alpha * np.exp(Z[Z <= 0])
-    return dZ
