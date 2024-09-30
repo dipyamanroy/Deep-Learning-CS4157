@@ -14,8 +14,9 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
 1. Python 3.x installed on your system.
 2. The following Python packages must be installed: `pandas`, `numpy`, `matplotlib`, `json` and `math`. 
 
-    > [!TIP]
-    > The suggested way to install these packages is using `pip` and in a virtual environment. For more information refer to [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/).
+> [!TIP]
+> The suggested way to install these packages is using `pip` and in a virtual environment. For more information refer to [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/).
+
 3. To generate plots using `matplotlib`, this project ues LaTeX fonts. This requires a working LaTeX distribution on your system. Installation instructions are given in the final section.   
 
 
@@ -39,9 +40,9 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
     "layers_dims": [1, 20, 20, 1],  # Neural network layers
     "early_stopping_patience": 0    # Early stopping patience (If cost does not improve after the number of layers provided, training stops)
     ```
-    
-    > [!WARNING]  
-    > Comments in the above snippet have been provided for illustration purposes. JSON does not support comments. 
+
+> [!WARNING]  
+> Comments in the above snippet have been provided for illustration purposes. JSON does not support comments. 
 
 3. Run `driver.py`. This will provide a cost convergence plot (`cost_convergence.png`), R2 scatterplot (`r2_scatter_plot.png`) and a comparison between the actual sine curve  and the predicted curve (`sine_comparison.png`).
 
@@ -53,8 +54,8 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
     ```json
     "dropout_keep_prob": 1.0,           #  Dropout keep probability (layers to keep i.e. 0.9 implies 90% of layers are preserved from one epoch to another)
     ```
-    > [!WARNING]  
-    > Comments in the above snippet have been provided for illustration purposes. JSON does not support comments. 
+> [!WARNING]  
+> Comments in the above snippet have been provided for illustration purposes. JSON does not support comments. 
 
 3. Run `driver.py`. This will provide a cost convergence plot (`cost_convergence.png`) and an R2 scatterplot (`r2_scatter_plot.png`). Additionally, the terminal output will provide the Training and Validation errors (MSE) after each epoch and Validation and Testing MAPE after the full run.
 > [!IMPORTANT]  
