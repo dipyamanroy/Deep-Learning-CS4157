@@ -13,6 +13,7 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
 ### Prerequisites
 1. Python 3.x installed on your system.
 2. The following Python packages must be installed: `pandas`, `numpy`, `matplotlib`, `json` and `math`. 
+
     > [!TIP]
     > The suggested way to install these packages is using `pip` and in a virtual environment. For more information refer to [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/).
 3. To generate plots using `matplotlib`, this project ues LaTeX fonts. This requires a working LaTeX distribution on your system. Installation instructions are given in the final section.   
@@ -38,6 +39,7 @@ Codes from the first assignment of Deep Learning `CS4157`, involving creating a 
     "layers_dims": [1, 20, 20, 1],  # Neural network layers
     "early_stopping_patience": 0    # Early stopping patience (If cost does not improve after the number of layers provided, training stops)
     ```
+    
     > [!WARNING]  
     > Comments in the above snippet have been provided for illustration purposes. JSON does not support comments. 
 
